@@ -52,7 +52,7 @@ public class Add_Schedule {
 			e1.printStackTrace();
 		}
 		frame = new JFrame("스케줄 추가하기");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -102,7 +102,7 @@ public class Add_Schedule {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScheduleView returnlist = new ScheduleView("master");
+				ScheduleView returnlist = new ScheduleView();
 				returnlist.frame.setVisible(true);
 			}
 		});
