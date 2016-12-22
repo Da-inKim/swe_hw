@@ -13,13 +13,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Delete_Schedule {
-	private JFrame frame;
+	
+	JFrame frame;
 	private JTextField textField;
 	private String deleteschedulenum;
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	String url = "jdbc:mysql://127.0.0.1:3306/SoftwareEnginnerHw";
+	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "4175^^";
 
