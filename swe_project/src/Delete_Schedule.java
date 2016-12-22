@@ -70,22 +70,15 @@ public class Delete_Schedule {
 		textField.setBounds(201, 68, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		deleteschedulenum = textField.getText();
 		
 		JButton btnNewButton = new JButton("삭제");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					
-					String sql = "DELETE FROM Schedule WHERE Schedule_Num="+deleteschedulenum;        
+					deleteschedulenum = textField.getText();
+					String sql = "DELETE FROM Schedule WHERE Schedule_Num='"+deleteschedulenum+"'";        
 					ps = con.prepareStatement(sql); 
 					ps.executeUpdate();
-					int n = ps.executeUpdate();
-					if(n>0){
-						System.out.println("삭제 성공");
-					}else{
-						System.out.println("삭제 실패");
-					}
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}

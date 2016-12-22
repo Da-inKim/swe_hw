@@ -84,12 +84,11 @@ public class Add_Phone {
 				try{
 					addname = textField.getText();
 					phonenumber = textField_1.getText();
-					String sql1 = "insert into Phonebook values(?,?,?,?)";
+					String sql1 = "insert into Phonebook(stored_id,name,phone_number) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
-					ps.setString(1, "2");
-					ps.setString(2,"swuser");
-					ps.setString(3,addname);
-					ps.setString(4,phonenumber);
+					ps.setString(1,"swuser");
+					ps.setString(2,addname);
+					ps.setString(3,phonenumber);
 					int n = ps.executeUpdate();
 					if(n>0){
 						System.out.println("추가 성공");
