@@ -343,7 +343,6 @@ public class UserAccount extends JFrame implements ActionListener {
 	static Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
-	rs = psmt.executeQuery();
 
 	String id, pw, new_id, new_pw;	
 	JPanel p;
