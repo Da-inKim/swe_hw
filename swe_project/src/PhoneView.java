@@ -27,6 +27,9 @@ public class PhoneView {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
+	String user = "root";
+	String pass = "01047670231";
 
 
 	/**
@@ -65,23 +68,25 @@ public class PhoneView {
 		lblNewLabel.setBounds(177,30, 105, 20);
 		frame.getContentPane().add(tableLabel);*/
 		
-		String header[] = {"이름","전화번호"};
+		String header[] = {"PhoneKey","이름","전화번호"};
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		table = new JTable(model);
 		table.setBounds(90,60,300,250);
 		scrollpane = new JScrollPane(table);
 		frame.add(scrollpane);
 		frame.add(table);
+		model.addRow(header);
 		
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
-			String sql = "SELECT name,phone_number FROM Phonebook";
+			con = DriverManager.getConnection(url,user,pass);
+			String sql = "SELECT phone_key,name,phone_number FROM Phonebook";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()){
-				String[] row = new String[2];
-				row[0] = rs.getString("name");
-				row[1] = rs.getString("phone_number");
+				String[] row = new String[3];
+				row[0] = rs.getString("phone_key");
+				row[1] = rs.getString("name");
+				row[2] = rs.getString("phone_number");
 				model.addRow(row);
 			}
 		}catch(SQLException e){

@@ -24,7 +24,7 @@ public class Add_Schedule {
 	ResultSet rs = null;
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
-	String pass = "4175^^";
+	String pass = "01047670231";
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -91,6 +91,8 @@ public class Add_Schedule {
 					}else{
 						System.out.println("추가 실패");
 					}
+					ScheduleView scheduleView = new ScheduleView();
+					scheduleView.frame.setVisible(true);
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}

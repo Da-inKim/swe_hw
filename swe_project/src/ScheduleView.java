@@ -25,6 +25,9 @@ public class ScheduleView {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
+	String user = "root";
+	String pass = "01047670231";
 	
 
 	/**
@@ -59,23 +62,25 @@ public class ScheduleView {
 		lblNewLabel.setBounds(200, 30, 105, 15);
 		frame.getContentPane().add(lblNewLabel);
 		
-		String header[] = {"날짜","내용"};
+		String header[] = {"번호","날짜","내용"};
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		table = new JTable(model);
 		table.setBounds(90,60,300,250);
 		scrollpane = new JScrollPane(table);
 		frame.add(scrollpane);
 		frame.add(table);
+		model.addRow(header);
 		
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
-			String sql = "SELECT date,description FROM schedule";
+			con = DriverManager.getConnection(url,user,pass);
+			String sql = "SELECT schedule_key,date,description FROM schedule";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()){
-				String[] row = new String[2];
-				row[0] = rs.getString("date");
-				row[1] = rs.getString("description");
+				String[] row = new String[3];
+				row[0] = rs.getString("schedule_key");
+				row[1] = rs.getString("date");
+				row[2] = rs.getString("description");
 				model.addRow(row);
 			}
 		}catch(SQLException e){

@@ -16,13 +16,13 @@ public class Delete_Schedule {
 	
 	JFrame frame;
 	private JTextField textField;
-	private String deleteschedulenum;
+	private String deleteScheduleKey;
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
-	String pass = "4175^^";
+	String pass = "01047670231";
 
 	/**
 	 * Launch the application.
@@ -62,7 +62,7 @@ public class Delete_Schedule {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Num");
+		JLabel lblNewLabel = new JLabel("ScheduleKey");
 		lblNewLabel.setBounds(102, 71, 62, 18);
 		frame.getContentPane().add(lblNewLabel);
 		
@@ -75,10 +75,12 @@ public class Delete_Schedule {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					deleteschedulenum = textField.getText();
-					String sql = "DELETE FROM Schedule WHERE Schedule_Num='"+deleteschedulenum+"'";        
+					deleteScheduleKey = textField.getText();
+					String sql = "DELETE FROM Schedule WHERE Schedule_key='"+deleteScheduleKey+"'";        
 					ps = con.prepareStatement(sql); 
 					ps.executeUpdate();
+					ScheduleView scheduleView = new ScheduleView();
+					scheduleView.frame.setVisible(true);
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
@@ -90,6 +92,8 @@ public class Delete_Schedule {
 		JButton btnNewButton_1 = new JButton("√Îº“");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ScheduleView returnlist = new ScheduleView();
+				returnlist.frame.setVisible(true);
 			}
 		});
 		btnNewButton_1.setBounds(217, 129, 105, 27);

@@ -18,14 +18,14 @@ public class Delete_Phone {
 
 	JFrame frame;
 	JTextField textField;
-	String deletename;
+	String deletePhoneKey;
 	Connection con = null;
 	PreparedStatement ps = null;
 	Statement stmt = null ; 
 	ResultSet rs = null;
 	String url = "jdbc:mysql://localhost:3306/sehw2";
 	String user = "root";
-	String pass = "4175^^";
+	String pass = "01047670231";
 
 	/**
 	 * Launch the application.
@@ -60,7 +60,7 @@ public class Delete_Phone {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("이름");
+		JLabel lblNewLabel = new JLabel("PhoneKey");
 		lblNewLabel.setBounds(102, 71, 62, 18);
 		frame.getContentPane().add(lblNewLabel);
 		
@@ -75,10 +75,12 @@ public class Delete_Phone {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					deletename = textField.getText();
-					String sql1="DELETE FROM Phonebook WHERE name='"+deletename+"'";
+					deletePhoneKey = textField.getText();
+					String sql1="DELETE FROM Phonebook WHERE phone_key='"+deletePhoneKey+"'";
 					ps = con.prepareStatement(sql1); 
 					ps.executeUpdate(); 
+					PhoneView phoneView = new PhoneView();
+					phoneView.frame.setVisible(true);
 				
 				}catch(SQLException e1){
 					e1.printStackTrace();
@@ -91,6 +93,8 @@ public class Delete_Phone {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PhoneView returnlist = new PhoneView();
+				returnlist.frame.setVisible(true);		
 			}
 		});
 		btnNewButton_1.setBounds(217, 129, 105, 27);

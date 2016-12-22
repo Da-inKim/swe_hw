@@ -24,7 +24,7 @@ public class Add_Phone {
 	ResultSet rs = null;
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
-	String pass = "4175^^";
+	String pass = "01047670231";
 
 	/**
 	 * Launch the application.
@@ -95,6 +95,8 @@ public class Add_Phone {
 					}else{
 						System.out.println("추가 실패");
 					}
+					PhoneView phoneView = new PhoneView();
+					phoneView.frame.setVisible(true);
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
