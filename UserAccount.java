@@ -24,7 +24,7 @@ class ChangePWview extends JDialog implements ActionListener {
 	JPanel p1,p2,p3;
 	JLabel labelPW1,labelPW2;
 	JTextField textPW = new JTextField(" user0000 ");//stored_pw
-	JTextField textPW1 = new JTextField(20);	
+	JTextField textPW1 = new JTextField(15);	
 	JButton okButton, cancelButton;
 	
 	Connection conn = null;
@@ -38,7 +38,7 @@ class ChangePWview extends JDialog implements ActionListener {
 		add(p1);
 		p3 = new JPanel();
 		p1.add(p3,"North");
-		//textPW.setText(user_pw);
+		//textPW.setText(stored_pw);
 		textPW.setEditable(false);
 		p3.add(textPW);		
 		labelPW1 = new JLabel(" 변경할 PW를 입력 ");
@@ -88,7 +88,7 @@ class ChangePWview extends JDialog implements ActionListener {
 	
 	public String isChangePW(String new_pw, String pw) {		
 		
-		if ( (new_pw != pw) && (new_pw.length() <= 20) && (new_pw.length() >= 8) ){
+		if ( (new_pw != pw) && (new_pw.length() <= 15) && (new_pw.length() >= 8) ){
 			JOptionPane.showMessageDialog(this, "비밀번호가 변경되었습니다.");
 			
 			try {
@@ -120,7 +120,7 @@ class ChangeIDview extends JDialog implements ActionListener {
 	JPanel p1,p2,p3;
 	JLabel labelID1,labelID2;
 	JTextField textID = new JTextField("  root  ");//stored_id
-	JTextField textID1 = new JTextField(20);
+	JTextField textID1 = new JTextField(15);
 	JButton okButton, cancelButton;
 	
 	Connection conn = null;
@@ -349,8 +349,8 @@ public class UserAccount extends JFrame implements ActionListener {
 	JPanel p;
 	JButton loginButton;
 	JLabel labelID, labelPW;
-	JTextField textID = new JTextField(20);
-	JTextField textPW = new JTextField(20);
+	JTextField textID = new JTextField(15);
+	JTextField textPW = new JTextField(15);
 	
 	UserAccount() {
 		p = new JPanel();
