@@ -58,7 +58,7 @@ public class Delete_Phone {
 			e1.printStackTrace();
 		}
 		frame = new JFrame("삭제하기");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -70,21 +70,21 @@ public class Delete_Phone {
 		textField.setBounds(201, 68, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		deletename = textField.getText();
+	
 		
 		JButton btnNewButton = new JButton("삭제");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					
+					deletename = textField.getText();
 					String sql = "DELETE FROM Phonebook WHERE name="+deletename;        
 					ps = con.prepareStatement(sql); 
 					ps.executeUpdate();
 					int n = ps.executeUpdate();
 					if(n>0){
-						System.out.println("추가 성공");
+						System.out.println("삭제 성공");
 					}else{
-						System.out.println("추가 실패");
+						System.out.println("삭제 실패");
 					}
 				}catch(SQLException e1){
 					e1.printStackTrace();

@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 
 public class PhoneView {
 	
-	private String user_id;
 	JFrame frame;
 	JTable table;
 	JScrollPane scrollpane;
@@ -37,7 +36,7 @@ public class PhoneView {
 			public void run() {
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
-					PhoneView window = new PhoneView("Lee11365");
+					PhoneView window = new PhoneView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,27 +45,32 @@ public class PhoneView {
 		});
 	}
 
-	public PhoneView(String id) {
-		user_id=id;
+	public PhoneView() {
 		initialize();
 	}
 
 	private void initialize() {
 	
 		frame = new JFrame("전화번호부");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("전화번호목록");
-		lblNewLabel.setBounds(177, 12, 105, 18);
+		lblNewLabel.setBounds(200, 30, 105, 15);
 		frame.getContentPane().add(lblNewLabel);
+		
+		/*JLabel tableLabel = new JLabel("이름       전화번호");
+		lblNewLabel.setBounds(177,30, 105, 20);
+		frame.getContentPane().add(tableLabel);*/
 		
 		String header[] = {"이름","전화번호"};
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		table = new JTable(model);
+		table.setBounds(90,60,300,250);
 		scrollpane = new JScrollPane(table);
 		frame.add(scrollpane);
+		frame.add(table);
 		
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
@@ -89,7 +93,7 @@ public class PhoneView {
 				addphone.frame.setVisible(true);
 			}
 		});
-		addButton.setBounds(104, 216, 105, 27);
+		addButton.setBounds(100, 350, 105, 27);
 		frame.getContentPane().add(addButton);
 		
 		JButton deleteButton = new JButton("삭제");
@@ -99,7 +103,7 @@ public class PhoneView {
 				deletephone.frame.setVisible(true);
 			}
 		});
-		deleteButton.setBounds(223, 216, 105, 27);
+		deleteButton.setBounds(260, 350, 105, 27);
 		frame.getContentPane().add(deleteButton);
 	}
 
