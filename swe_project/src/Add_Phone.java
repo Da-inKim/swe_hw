@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class Add_Phone {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private String addname;
@@ -22,7 +22,7 @@ public class Add_Phone {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	String url = "jdbc:mysql://127.0.0.1:3306/SoftwareEnginnerHw";
+	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "4175^^";
 
@@ -33,6 +33,7 @@ public class Add_Phone {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Class.forName("com.mysql.jdbc.Driver");
 					Add_Phone window = new Add_Phone();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -105,12 +106,16 @@ public class Add_Phone {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PhoneView returnlist = new PhoneView("master");
-				
-				
+				returnlist.frame.setVisible(true);		
 			}
 		});
 		btnNewButton_1.setBounds(225, 156, 105, 27);
 		frame.getContentPane().add(btnNewButton_1);
+		
+	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
 		
 	}
 }

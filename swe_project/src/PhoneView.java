@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 //import net.proteanit.sql.DbUtils;
 
@@ -18,14 +21,13 @@ import java.awt.event.ActionEvent;
 public class PhoneView {
 	
 	private String user_id;
-	private JFrame frame;
-	private JTable table;
+	JFrame frame;
+	JTable table;
+	JScrollPane scrollpane;
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	String url = "jdbc:mysql://localhost:3306/SoftwareEnginnerHw";
-	String user = "root";
-	String pass = "4175^^";
+
 
 	/**
 	 * Launch the application.
@@ -34,7 +36,8 @@ public class PhoneView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PhoneView window = new PhoneView("master");
+					Class.forName("com.mysql.jdbc.Driver");
+					PhoneView window = new PhoneView("Lee11365");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,10 +51,6 @@ public class PhoneView {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws SQLException 
-	 */
 	private void initialize() {
 	
 		frame = new JFrame("전화번호부");
@@ -63,17 +62,23 @@ public class PhoneView {
 		lblNewLabel.setBounds(177, 12, 105, 18);
 		frame.getContentPane().add(lblNewLabel);
 		
-		table = new JTable();
-		table.setBounds(425, 210, -416, -177);
-		frame.getContentPane().add(table);
+		String header[] = {"이름","전화번호"};
+		DefaultTableModel model = new DefaultTableModel(header, 0);
+		table = new JTable(model);
+		scrollpane = new JScrollPane(table);
+		frame.add(scrollpane);
 		
 		try{
-			con = DriverManager.getConnection(url,user,pass);
-			String sql = "select * from Phonebook P, User_account U where P."+user_id+"= U."+user_id;
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
+			String sql = "SELECT name,phone_number FROM Phonebook";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			
-			//table.setModel(DbUtils.resultSetToTableModel(rs));
+			while(rs.next()){
+				String[] row = new String[2];
+				row[0] = rs.getString("name");
+				row[1] = rs.getString("phone_number");
+				model.addRow(row);
+			}
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -81,6 +86,7 @@ public class PhoneView {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Add_Phone addphone = new Add_Phone();
+				addphone.frame.setVisible(true);
 			}
 		});
 		addButton.setBounds(104, 216, 105, 27);
@@ -90,9 +96,11 @@ public class PhoneView {
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Delete_Phone deletephone = new Delete_Phone();
+				deletephone.frame.setVisible(true);
 			}
 		});
 		deleteButton.setBounds(223, 216, 105, 27);
 		frame.getContentPane().add(deleteButton);
 	}
+
 }

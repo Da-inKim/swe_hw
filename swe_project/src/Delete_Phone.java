@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class Delete_Phone {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private String deletename;
 	Connection con = null;
