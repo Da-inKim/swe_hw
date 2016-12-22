@@ -88,7 +88,7 @@ class ChangePWview extends JDialog implements ActionListener {
 	
 	public String isChangePW(String new_pw, String pw) {		
 		
-		if ( (new_pw != pw) && new_pw.length()<=20 ){
+		if ( (new_pw != pw) && (new_pw.length() <= 20) && (new_pw.length() >= 8) ){
 			JOptionPane.showMessageDialog(this, "비밀번호가 변경되었습니다.");
 			
 			try {
