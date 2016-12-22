@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -84,6 +85,7 @@ public class Add_Phone {
 				try{
 					addname = textField.getText();
 					phonenumber = textField_1.getText();
+					//checkNameNum(addname, phonenumber);
 					String sql1 = "insert into Phonebook(stored_id,name,phone_number) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
 					ps.setString(1,"swuser");
