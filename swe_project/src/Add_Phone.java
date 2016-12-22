@@ -55,7 +55,7 @@ public class Add_Phone {
 			e1.printStackTrace();
 		}
 		frame = new JFrame("전화번호 추가하기");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -67,7 +67,7 @@ public class Add_Phone {
 		textField.setBounds(197, 59, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		addname = textField.getText();
+	
 		
 		JLabel lblNewLabel_1 = new JLabel("전화번호");
 		lblNewLabel_1.setBounds(86, 109, 62, 18);
@@ -77,16 +77,18 @@ public class Add_Phone {
 		textField_1.setBounds(197, 106, 116, 24);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
-		phonenumber = textField_1.getText();
 		
 		JButton btnNewButton = new JButton("추가하기");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					String sql1 = "insert into Phonebook values(?,?)";
+					addname = textField.getText();
+					phonenumber = textField_1.getText();
+					String sql1 = "insert into Phonebook(stored_id,name,phone_number) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
-					ps.setString(3,addname);
-					ps.setString(4,phonenumber);
+					ps.setString(1,"swuser");
+					ps.setString(2,addname);
+					ps.setString(3,phonenumber);
 					int n = ps.executeUpdate();
 					if(n>0){
 						System.out.println("추가 성공");
@@ -105,7 +107,7 @@ public class Add_Phone {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PhoneView returnlist = new PhoneView("master");
+				PhoneView returnlist = new PhoneView();
 				returnlist.frame.setVisible(true);		
 			}
 		});

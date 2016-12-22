@@ -64,7 +64,6 @@ public class Add_Schedule {
 		textField.setBounds(197, 59, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		add_date = textField.getText();
 		
 		JLabel lblNewLabel_1 = new JLabel("내용");
 		lblNewLabel_1.setBounds(86, 109, 62, 18);
@@ -74,16 +73,18 @@ public class Add_Schedule {
 		textArea.setBounds(197, 106, 116, 24);
 		frame.getContentPane().add(textArea);
 		textArea.setColumns(10);
-		add_description = textArea.getText();
 		
 		JButton btnNewButton = new JButton("추가하기");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					String sql1 = "insert into Schedule values(?,?)";
+					add_date = textField.getText();
+					add_description = textArea.getText();
+					String sql1 = "insert into Schedule(stored_id,date,description) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
-					ps.setString(3,add_date);
-					ps.setString(4,add_description);
+					ps.setString(1,"swuser");
+					ps.setString(2,add_date);
+					ps.setString(3,add_description);
 					int n = ps.executeUpdate();
 					if(n>0){
 						System.out.println("추가 성공");

@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 class ChangePWview extends JDialog implements ActionListener {
 	JPanel p1,p2,p3;
 	JLabel labelPW1,labelPW2;
-	JTextField textPW = new JTextField(15);//stored_pw
+	JTextField textPW = new JTextField(" user0000 ");//stored_pw
 	JTextField textPW1 = new JTextField(15);	
 	JButton okButton, cancelButton;
 	
@@ -119,7 +119,7 @@ class ChangePWview extends JDialog implements ActionListener {
 class ChangeIDview extends JDialog implements ActionListener {
 	JPanel p1,p2,p3;
 	JLabel labelID1,labelID2;
-	JTextField textID = new JTextField(15);//stored_id
+	JTextField textID = new JTextField("  root  ");//stored_id
 	JTextField textID1 = new JTextField(15);
 	JButton okButton, cancelButton;
 	
@@ -127,11 +127,6 @@ class ChangeIDview extends JDialog implements ActionListener {
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
 	String sql = "SELECT stored_id, stored_pw FROM account";
-	String present_id;
-	
-	ChangeIDview(String id){
-		present_id = id;
-	}
 	
 	ChangeIDview(LoginView loginView, String str) {
 		super(loginView,str, true);
@@ -139,7 +134,7 @@ class ChangeIDview extends JDialog implements ActionListener {
 		add(p1,"Center");
 		p3 = new JPanel();
 		p1.add(p3,"North");
-		//textID.setText(id);
+		//textID.setText(user_id);
 		textID.setEditable(false);
 		p3.add(textID);
 		labelID1 = new JLabel(" 변경할 ID를 입력 ");
@@ -225,7 +220,7 @@ class ChangeIDview extends JDialog implements ActionListener {
 			
 			try { // db와 connection 연결
 				String jdbc_url = "http:mysql://localhost:3306/sehw2";					
-				conn = DriverManager.getConnection(jdbc_url,"root","4175^^");
+				conn = DriverManager.getConnection(jdbc_url,"swuser","user0000");
 			} catch (SQLException e1) {
 				System.out.println(e1);
 			}
@@ -247,15 +242,12 @@ class ChangeIDview extends JDialog implements ActionListener {
 class LoginView extends JDialog implements ActionListener {
 	ChangeIDview aIDchange;
 	ChangePWview aPWchange;
-	String present_id;
+	//PhoneView aPhoneView;
+	//ScheduleView aScheduleView;
 	
 	JPanel p1,p2,p3;
 	JButton changeIDButton, changePWButton;
 	JButton logoutButton,scheduleButton,phonebookButton;
-	
-	LoginView(String id){
-		present_id = id;
-	}
 
 	LoginView(Frame parent,String str) {
 		super(parent,str,true);		
@@ -307,15 +299,13 @@ class LoginView extends JDialog implements ActionListener {
 		}
 		
 		if (e.getSource() == phonebookButton) {
-			PhoneView callphone = new PhoneView() ;
-			callphone.frame.setVisible(true);
+			;
 			//aPhoneView; 
 			
 		}
 			
 		if (e.getSource() == scheduleButton) {
-			ScheduleView callSchedule = new ScheduleView();
-			callSchedule.frame.setVisible(true);
+			;
 			//aScheduleView;
 		}
 			
@@ -343,7 +333,7 @@ class LoginView extends JDialog implements ActionListener {
 
 
 
-public class User_Account3 extends JFrame implements ActionListener {
+public class UserAccount extends JFrame implements ActionListener {
 	LoginView aLogin;
 	ChangeIDview aIDchange;
 	ChangePWview aPWchange;	
@@ -355,22 +345,23 @@ public class User_Account3 extends JFrame implements ActionListener {
 	ResultSet rs = null;
 
 	String id, pw, new_id, new_pw;	
-	String db_id,db_pw;
 	JPanel p;
 	JButton loginButton;
 	JLabel labelID, labelPW;
 	JTextField textID = new JTextField(15);
 	JTextField textPW = new JTextField(15);
 	
-	User_Account3() {
+	UserAccount() {
 		p = new JPanel();
 		add(p);		
 		labelID = new JLabel(" ID ");
 		labelPW = new JLabel(" PW ");
 		p.add(labelID);
 		p.add(textID);
+		textID.addActionListener(this);
 		p.add(labelPW);
 		p.add(textPW);
+		textPW.addActionListener(this);
 		loginButton = new JButton("로그인");
 		p.add(loginButton);
 		loginButton.addActionListener((ActionListener) this);
@@ -379,29 +370,33 @@ public class User_Account3 extends JFrame implements ActionListener {
 	
 	public void isLogin(String id, String pw){				
 
-		try { // db와 connection 연결			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
+		try { // jdbc driver 로드
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			System.out.println(e1);
+		}
+		
+		try { // db와 connection 연결
+			String jdbc_url = "http:mysql://localhost:3306/sehw2";					
+			conn = DriverManager.getConnection(jdbc_url,"swuser","user0000");
 			String sql = "SELECT stored_id, stored_pw FROM account";
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			while ( rs.next() ) {
-				db_id = rs.getString("stored_id");
-				db_pw = rs.getString("stored_pw");
-				boolean r1 = id.equals(db_id);
-				boolean r2 = pw.equals(db_pw);
-				System.out.println(r1);
-				System.out.println(r2);
+				String db_id = rs.getString("stored_id");
+				db_id.equals(stored_id); //user_id
 			} 
 		} catch (SQLException e1) {
 			System.out.println(e1);
 		}
 		
 		
-		if ( id.equals(db_id) && pw.equals(db_pw) ) {
-			
-			LoginView present_id = new LoginView(id);
-			aLogin = new LoginView(this, "LOGIN");
-			
+		
+		if ( id.equals(stored_id) && pw.equals(stored_pw) ) {
+		
+			if ( aLogin == null ) {
+				aLogin = new LoginView(this, "LOGIN");
+			}
 		}
 		else {
 			JOptionPane.showMessageDialog(this, "다시 입력해주세요.","error",JOptionPane.ERROR_MESSAGE);
@@ -436,7 +431,7 @@ public class User_Account3 extends JFrame implements ActionListener {
 		
 				try { // jdbc driver 로드
 					Class.forName("com.mysql.jdbc.Driver");
-					User_Account3 account = new User_Account3();			
+					UserAccount account = new UserAccount();			
 					account.setTitle("HOME");
 					account.setSize(400,200);
 					account.setVisible(true);

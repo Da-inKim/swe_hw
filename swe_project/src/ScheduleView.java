@@ -19,7 +19,6 @@ import java.awt.event.ActionEvent;
 
 public class ScheduleView {
 	
-	private String user_id;
 	JFrame frame;
 	JTable table;
 	JScrollPane scrollpane;
@@ -52,19 +51,21 @@ public class ScheduleView {
 	private void initialize() {
 		
 		frame = new JFrame("스케줄");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("스케줄 목록");
-		lblNewLabel.setBounds(177, 12, 105, 18);
+		lblNewLabel.setBounds(200, 30, 105, 15);
 		frame.getContentPane().add(lblNewLabel);
 		
 		String header[] = {"날짜","내용"};
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		table = new JTable(model);
+		table.setBounds(90,60,300,250);
 		scrollpane = new JScrollPane(table);
 		frame.add(scrollpane);
+		frame.add(table);
 		
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sehw2","root","4175^^");
@@ -87,7 +88,7 @@ public class ScheduleView {
 				addschedule.frame.setVisible(true);
 			}
 		});
-		addButton.setBounds(104, 216, 105, 27);
+		addButton.setBounds(100, 350, 105, 27);
 		frame.getContentPane().add(addButton);
 		
 		JButton deleteButton = new JButton("삭제");
@@ -97,7 +98,7 @@ public class ScheduleView {
 				deleteschedule.frame.setVisible(true);
 			}
 		});
-		deleteButton.setBounds(223, 216, 105, 27);
+		deleteButton.setBounds(260, 350, 105, 27);
 		frame.getContentPane().add(deleteButton);
 	}
 }

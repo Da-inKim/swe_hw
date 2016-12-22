@@ -1,26 +1,29 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import com.mysql.jdbc.Statement;
 
 public class Delete_Phone {
 
 	JFrame frame;
-	private JTextField textField;
-	private String deletename;
+	JTextField textField;
+	String deletename;
 	Connection con = null;
 	PreparedStatement ps = null;
+	Statement stmt = null ; 
 	ResultSet rs = null;
-	String url = "jdbc:mysql://127.0.0.1:3306/SoftwareEnginnerHw";
+	String url = "jdbc:mysql://localhost:3306/sehw2";
 	String user = "root";
 	String pass = "4175^^";
 
@@ -40,16 +43,11 @@ public class Delete_Phone {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Delete_Phone() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		try {
 			con = DriverManager.getConnection(url,user,pass);
@@ -58,7 +56,7 @@ public class Delete_Phone {
 			e1.printStackTrace();
 		}
 		frame = new JFrame("삭제하기");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -70,22 +68,18 @@ public class Delete_Phone {
 		textField.setBounds(201, 68, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		deletename = textField.getText();
+		
+	
 		
 		JButton btnNewButton = new JButton("삭제");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					
-					String sql = "DELETE FROM Phonebook WHERE name="+deletename;        
-					ps = con.prepareStatement(sql); 
-					ps.executeUpdate();
-					int n = ps.executeUpdate();
-					if(n>0){
-						System.out.println("추가 성공");
-					}else{
-						System.out.println("추가 실패");
-					}
+					deletename = textField.getText();
+					String sql1="DELETE FROM Phonebook WHERE name='"+deletename+"'";
+					ps = con.prepareStatement(sql1); 
+					ps.executeUpdate(); 
+				
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
