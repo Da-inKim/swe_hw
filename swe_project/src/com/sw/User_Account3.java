@@ -1,3 +1,4 @@
+package com.sw;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ public class User_Account3 extends JFrame {
 		
 	}
 	
-	User_Account3() {
+	public User_Account3() {
 		p = new JPanel();
 		add(p);		
 		labelID = new JLabel(" ID ");

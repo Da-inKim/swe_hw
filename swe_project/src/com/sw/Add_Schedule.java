@@ -1,3 +1,4 @@
+package com.sw;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -52,21 +53,21 @@ public class Add_Schedule extends JDialog {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("날짜");
-		lblNewLabel.setBounds(86, 62, 62, 18);
+		JLabel lblNewLabel = new JLabel("날짜 [ex)161223]");
+		lblNewLabel.setBounds(78, 62, 100, 18);
 		frame.getContentPane().add(lblNewLabel);
 		
 		textField = new JTextField();
-		textField.setBounds(197, 59, 116, 24);
+		textField.setBounds(210, 59, 116, 24);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("내용");
-		lblNewLabel_1.setBounds(86, 109, 62, 18);
+		lblNewLabel_1.setBounds(78, 109, 62, 18);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		textArea = new JTextArea();
-		textArea.setBounds(197, 106, 116, 24);
+		textArea.setBounds(160, 106, 200, 55);
 		frame.getContentPane().add(textArea);
 		textArea.setColumns(10);
 		
@@ -76,15 +77,17 @@ public class Add_Schedule extends JDialog {
 				try{
 					add_date = textField.getText();
 					add_description = textArea.getText();
-					String sql1 = "insert into Schedule(store_id,date,description) values(?,?,?)";
-					ps = con.prepareStatement(sql1);
-					ps.setString(1,"swuser");
-					ps.setString(2,add_date);
-					ps.setString(3,add_description);
-					int n = ps.executeUpdate();
-					if(n>0){
+					boolean checkVar = checkLength(add_date, add_description);
+					if(checkVar) {
+						String sql1 = "insert into Schedule(store_id,date,description) values(?,?,?)";
+						ps = con.prepareStatement(sql1);
+						ps.setString(1,"swuser");
+						ps.setString(2,add_date);
+						ps.setString(3,add_description);
+						ps.executeUpdate();
 						JOptionPane.showMessageDialog(null, "스케쥴이 추가되었습니다.");		
-					}else{
+					}
+					else{
 						JOptionPane.showMessageDialog(null, "다시 입력해주세요.","error",JOptionPane.ERROR_MESSAGE);
 					}
 					ScheduleView scheduleView;
@@ -102,7 +105,7 @@ public class Add_Schedule extends JDialog {
 				
 			}
 		});
-		btnNewButton.setBounds(85, 156, 105, 27);
+		btnNewButton.setBounds(85, 190, 105, 27);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("취소");
@@ -119,7 +122,7 @@ public class Add_Schedule extends JDialog {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(225, 156, 105, 27);
+		btnNewButton_1.setBounds(225, 190, 105, 27);
 		frame.getContentPane().add(btnNewButton_1);
 		
 	}
@@ -129,6 +132,12 @@ public class Add_Schedule extends JDialog {
 		public void windowClosing(WindowEvent e) {
 			frame.dispose();
 		}
+	}
+	public boolean checkLength(String add_date, String add_description) {
+		if(add_date.length() == 6 && add_description.length() > 3 && add_description.length() < 31)
+			return true;
+		else
+			return false;
 	}
 	public void setVisible(boolean b) {
 		// TODO Auto-generated method stub
