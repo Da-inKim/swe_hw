@@ -8,6 +8,10 @@
 
 ★ testcase를 돌리실 땐, 꼭 다시 account table의 stored_id를 swuser로, stored_pw를 user0000으로 수정하신 후 돌려주세요!
 
+★ Test source file: TestCase.java
+
+★ Program source files: 그 외 10개의 .java 파일들
+
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 ★ 디비 설정은 다음과 같이 해주세요 ★
