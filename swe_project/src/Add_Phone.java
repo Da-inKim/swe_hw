@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Add_Phone {
-
 	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
