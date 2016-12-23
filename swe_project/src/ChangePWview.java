@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 class ChangePWview extends JDialog implements ActionListener {	
-
 		JPanel p1,p2,p3;
 		JLabel labelPW1,labelPW2;
 		JTextField textPW = new JTextField(15);
