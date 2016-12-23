@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 
 
 public class User_Account3 extends JFrame {
-	
 	Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
@@ -29,6 +28,7 @@ public class User_Account3 extends JFrame {
 	JLabel labelID, labelPW;
 	JTextField textID;
 	JTextField textPW;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";

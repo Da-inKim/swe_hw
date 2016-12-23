@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,10 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-//import net.proteanit.sql.DbUtils;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class ScheduleView {
@@ -25,31 +24,22 @@ public class ScheduleView {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	String present_id;
+	String present_pw;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
 	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					ScheduleView window = new ScheduleView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public ScheduleView() {
+	public ScheduleView(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
+
 
 	private void initialize() {
 		
@@ -89,21 +79,54 @@ public class ScheduleView {
 		JButton addButton = new JButton("추가");
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Add_Schedule addschedule = new Add_Schedule();
-				addschedule.frame.setVisible(true);
+				Add_Schedule addschedule;
+				try {
+					addschedule = new Add_Schedule(present_id,present_pw);
+					frame.dispose();
+					addschedule.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		addButton.setBounds(100, 350, 105, 27);
+		addButton.setBounds(70, 350, 105, 27);
 		frame.getContentPane().add(addButton);
 		
 		JButton deleteButton = new JButton("삭제");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Delete_Schedule deleteschedule = new Delete_Schedule();
-				deleteschedule.frame.setVisible(true);
+				Delete_Schedule deleteschedule;
+				try {
+					deleteschedule = new Delete_Schedule(present_id,present_pw);
+					frame.dispose();
+					deleteschedule.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		deleteButton.setBounds(260, 350, 105, 27);
+		deleteButton.setBounds(190, 350, 105, 27);
 		frame.getContentPane().add(deleteButton);
+		
+		JButton returnButton = new JButton("이전으로");
+		returnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				LoginView returnlogin = new LoginView(present_id, present_pw);
+				returnlogin.setVisible(true);
+			}
+		});
+		returnButton.setBounds(310, 350, 105, 27);
+		frame.getContentPane().add(returnButton);
+	
+	}
+	
+	class MyWinListener extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			frame.dispose();
+		}
 	}
 }

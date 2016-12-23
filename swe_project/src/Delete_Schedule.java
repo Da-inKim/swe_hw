@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -16,40 +16,25 @@ public class Delete_Schedule {
 	
 	JFrame frame;
 	private JTextField textField;
-	private String deleteScheduleKey;
+	private String deleteschedulenum;
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
+	
+	String present_id;
+	String present_pw;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Delete_Schedule window = new Delete_Schedule();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public Delete_Schedule() {
+	public Delete_Schedule(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		try {
 			con = DriverManager.getConnection(url,user,pass);
@@ -63,7 +48,7 @@ public class Delete_Schedule {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ScheduleKey");
-		lblNewLabel.setBounds(102, 71, 62, 18);
+		lblNewLabel.setBounds(82, 71, 100, 18);
 		frame.getContentPane().add(lblNewLabel);
 		
 		textField = new JTextField();
@@ -75,12 +60,20 @@ public class Delete_Schedule {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{          
-					deleteScheduleKey = textField.getText();
-					String sql = "DELETE FROM Schedule WHERE Schedule_key='"+deleteScheduleKey+"'";        
+					deleteschedulenum = textField.getText();
+					String sql = "DELETE FROM Schedule WHERE Schedule_key='"+deleteschedulenum+"'";        
 					ps = con.prepareStatement(sql); 
 					ps.executeUpdate();
-					ScheduleView scheduleView = new ScheduleView();
-					scheduleView.frame.setVisible(true);
+					JOptionPane.showMessageDialog(null, "스케쥴이 삭제되었습니다.");							
+					ScheduleView scheduleView;
+					try {
+						scheduleView = new ScheduleView(present_id,present_pw);
+						frame.dispose();
+						scheduleView.frame.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
@@ -92,8 +85,15 @@ public class Delete_Schedule {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScheduleView returnlist = new ScheduleView();
-				returnlist.frame.setVisible(true);
+				ScheduleView scheduleView_1;
+				try {
+					scheduleView_1 = new ScheduleView(present_id,present_pw);
+					frame.dispose();
+					scheduleView_1.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(217, 129, 105, 27);

@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,10 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//import net.proteanit.sql.DbUtils;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -27,29 +23,19 @@ public class PhoneView {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
+	
+	String present_id;
+	String present_pw;
 
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					PhoneView window = new PhoneView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public PhoneView() {
+	public PhoneView(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
 
@@ -95,23 +81,56 @@ public class PhoneView {
 		JButton addButton = new JButton("추가");
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Add_Phone addphone = new Add_Phone();
-				addphone.frame.setVisible(true);
+				Add_Phone addphone;
+				try {
+					addphone = new Add_Phone(present_id,present_pw);
+					addphone.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		addButton.setBounds(100, 350, 105, 27);
+		addButton.setBounds(70, 350, 105, 27);
 		frame.getContentPane().add(addButton);
 		
 		JButton deleteButton = new JButton("삭제");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Delete_Phone deletephone = new Delete_Phone();
-				deletephone.frame.setVisible(true);
+				Delete_Phone deletephone;
+				try {
+					deletephone = new Delete_Phone(present_id,present_pw);
+					frame.dispose();
+					deletephone.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		deleteButton.setBounds(260, 350, 105, 27);
+		deleteButton.setBounds(190, 350, 105, 27);
 		frame.getContentPane().add(deleteButton);
+		
+		JButton returnButton = new JButton("이전으로");
+		returnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				LoginView returnlogin = new LoginView(present_id, present_pw);
+				returnlogin.setVisible(true);
+			}
+		});
+		returnButton.setBounds(310, 350, 105, 27);
+		frame.getContentPane().add(returnButton);
+
 	}
+	class MyWinListener extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			frame.dispose();
+		}
+	}
+
+
 	
 
 }

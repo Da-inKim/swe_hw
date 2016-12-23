@@ -1,18 +1,22 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
 
-public class Add_Schedule {
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class Add_Schedule extends JDialog {
 	
 	JFrame frame;
 	private JTextField textField;
@@ -22,25 +26,18 @@ public class Add_Schedule {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					Add_Schedule window = new Add_Schedule();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	String present_id;
+	String present_pw;
 
-	public Add_Schedule() {
+	public Add_Schedule(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
 
@@ -52,7 +49,7 @@ public class Add_Schedule {
 			e1.printStackTrace();
 		}
 		frame = new JFrame("스케줄 추가하기");
-		frame.setBounds(100, 100, 500, 500);
+		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -80,19 +77,26 @@ public class Add_Schedule {
 				try{
 					add_date = textField.getText();
 					add_description = textArea.getText();
-					String sql1 = "insert into Schedule(stored_id,date,description) values(?,?,?)";
+					String sql1 = "insert into Schedule(store_id,date,description) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
 					ps.setString(1,"swuser");
 					ps.setString(2,add_date);
 					ps.setString(3,add_description);
 					int n = ps.executeUpdate();
 					if(n>0){
-						System.out.println("추가 성공");
+						JOptionPane.showMessageDialog(null, "스케쥴이 추가되었습니다.");		
 					}else{
-						System.out.println("추가 실패");
+						JOptionPane.showMessageDialog(null, "다시 입력해주세요.","error",JOptionPane.ERROR_MESSAGE);
 					}
-					ScheduleView scheduleView = new ScheduleView();
-					scheduleView.frame.setVisible(true);
+					ScheduleView scheduleView;
+					try {
+						scheduleView = new ScheduleView(present_id,present_pw);
+						frame.dispose();
+						scheduleView.frame.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
@@ -105,13 +109,27 @@ public class Add_Schedule {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScheduleView returnlist = new ScheduleView();
-				returnlist.frame.setVisible(true);
+				ScheduleView returnlist;
+				try {
+					returnlist = new ScheduleView(present_id,present_pw);
+					frame.dispose();
+					returnlist.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(225, 156, 105, 27);
 		frame.getContentPane().add(btnNewButton_1);
 		
+	}
+	
+	class MyWinListener extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			frame.dispose();
+		}
 	}
 	public void setVisible(boolean b) {
 		// TODO Auto-generated method stub

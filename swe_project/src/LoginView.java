@@ -62,21 +62,36 @@ class LoginView extends JDialog implements ActionListener {
 			}
 			
 			if (e.getSource() == phonebookButton) {
-				PhoneView callphone = new PhoneView() ;
-				dispose();
-				callphone.frame.setVisible(true);			
+					PhoneView callphone;
+					try {
+						callphone = new PhoneView(present_id, present_pw);
+						dispose();
+						callphone.frame.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 			}
 				
 			if (e.getSource() == scheduleButton) {
-				ScheduleView callSchedule = new ScheduleView();
-				dispose();
-				callSchedule.frame.setVisible(true);
+				ScheduleView callSchedule;
+				try {
+					callSchedule = new ScheduleView(present_id, present_pw);
+					dispose();
+					callSchedule.frame.setVisible(true);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 				
 			if (e.getSource() == logoutButton) {
-				//User_Account3 callUser = new User_Account3();
+				User_Account3 returnlogin = new User_Account3();
 				dispose();
-				//callUser.setVisible(true);
+				returnlogin.setVisible(true);
+				returnlogin.setSize(500,200);
+				returnlogin.setTitle("HOME");
 			}
 			
 			changeIDButton.requestFocus();

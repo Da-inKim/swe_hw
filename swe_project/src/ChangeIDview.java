@@ -27,12 +27,13 @@ class ChangeIDview extends JDialog implements ActionListener {
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
-		String present_id;
-		String present_pw;
 		
 		String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 		String user = "root";
 		String pass = "01047670231";
+		
+		String present_id;
+		String present_pw;
 		
 		public ChangeIDview(String id,String pw){
 			present_id = id;
@@ -65,16 +66,18 @@ class ChangeIDview extends JDialog implements ActionListener {
 				String id = textID.getText();
 				String new_id = textID1.getText();	
 				String change_id = ChangeID(new_id,present_id);
-				textID.setText(change_id);				
+				textID.setText(change_id);	
 				textID1.setText(null);	
+				dispose();
+				LoginView returnLoginView = new LoginView(change_id,present_pw);
+				returnLoginView.setVisible(true);
 			}
 			
 			if (e.getSource()==cancelButton) {
 				
 				String return_id=textID.getText();
-				textID1.setText(null);				
+				textID1.setText(null);	
 				LoginView returnLoginView = new LoginView(return_id,present_pw);
-				dispose();
 				returnLoginView.setVisible(true);
 			}
 			

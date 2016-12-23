@@ -1,6 +1,7 @@
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,9 +11,8 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-import com.mysql.jdbc.Statement;
 
 public class Delete_Phone {
 
@@ -20,30 +20,20 @@ public class Delete_Phone {
 	JTextField textField;
 	String deletePhoneKey;
 	Connection con = null;
-	PreparedStatement ps = null;
-	Statement stmt = null ; 
+	PreparedStatement ps = null; 
 	ResultSet rs = null;
+	
 	String url = "jdbc:mysql://localhost:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
+	
+	String present_id;
+	String present_pw;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Delete_Phone window = new Delete_Phone();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public Delete_Phone() {
+	public Delete_Phone(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
 
@@ -78,9 +68,17 @@ public class Delete_Phone {
 					deletePhoneKey = textField.getText();
 					String sql1="DELETE FROM Phonebook WHERE phone_key='"+deletePhoneKey+"'";
 					ps = con.prepareStatement(sql1); 
-					ps.executeUpdate(); 
-					PhoneView phoneView = new PhoneView();
-					phoneView.frame.setVisible(true);
+					ps.executeUpdate();
+					JOptionPane.showMessageDialog(null, "연락처가 삭제되었습니다.");							
+					PhoneView phoneView;
+					try {
+						phoneView = new PhoneView(present_id,present_pw);
+						frame.dispose();
+						phoneView.frame.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 				}catch(SQLException e1){
 					e1.printStackTrace();
@@ -93,12 +91,27 @@ public class Delete_Phone {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PhoneView returnlist = new PhoneView();
-				returnlist.frame.setVisible(true);		
+				PhoneView returnlist;
+				try {
+					returnlist = new PhoneView(present_id, present_pw);
+					frame.dispose();
+					returnlist.frame.setVisible(true);		
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(217, 129, 105, 27);
 		frame.getContentPane().add(btnNewButton_1);
 	}
+	
+	class MyWinListener extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			frame.dispose();
+		}
+	}
+
 
 }

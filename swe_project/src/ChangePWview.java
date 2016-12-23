@@ -26,12 +26,13 @@ class ChangePWview extends JDialog implements ActionListener {
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
-		String present_id;
-		String present_pw;
 		
 		String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 		String user = "root";
 		String pass = "01047670231";
+		
+		String present_id;
+		String present_pw;
 		
 		public ChangePWview(String id, String pw){
 			present_id = id;
@@ -67,6 +68,9 @@ class ChangePWview extends JDialog implements ActionListener {
 				String change_pw = ChangePW(new_pw,present_pw);
 				textPW.setText(change_pw);
 				textPW1.setText(null);	
+				dispose();
+				LoginView returnLoginView = new LoginView(present_id,change_pw);
+				returnLoginView.setVisible(true);
 			}
 			
 			if (e.getSource()==cancelButton) {

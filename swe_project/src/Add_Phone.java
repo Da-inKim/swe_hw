@@ -1,11 +1,11 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,28 +23,18 @@ public class Add_Phone {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
 	String url = "jdbc:mysql://127.0.0.1:3306/sehw2";
 	String user = "root";
 	String pass = "01047670231";
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					Add_Phone window = new Add_Phone();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	String present_id;
+	String present_pw;
 
-	public Add_Phone() {
+	public Add_Phone(String id, String pw) throws ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		present_id = id;
+		present_pw = pw;
 		initialize();
 	}
 
@@ -85,7 +75,6 @@ public class Add_Phone {
 				try{
 					addname = textField.getText();
 					phonenumber = textField_1.getText();
-					//checkNameNum(addname, phonenumber);
 					String sql1 = "insert into Phonebook(stored_id,name,phone_number) values(?,?,?)";
 					ps = con.prepareStatement(sql1);
 					ps.setString(1,"swuser");
@@ -93,12 +82,19 @@ public class Add_Phone {
 					ps.setString(3,phonenumber);
 					int n = ps.executeUpdate();
 					if(n>0){
-						System.out.println("추가 성공");
+						JOptionPane.showMessageDialog(null, "연락처가 추가되었습니다.");		
 					}else{
-						System.out.println("추가 실패");
+						JOptionPane.showMessageDialog(null, "다시 입력해주세요.","error",JOptionPane.ERROR_MESSAGE);
 					}
-					PhoneView phoneView = new PhoneView();
-					phoneView.frame.setVisible(true);
+					PhoneView phoneView;
+					try {
+						phoneView = new PhoneView(present_id,present_pw);
+						frame.dispose();
+						phoneView.frame.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}catch(SQLException e1){
 					e1.printStackTrace();
 				}
@@ -111,13 +107,26 @@ public class Add_Phone {
 		JButton btnNewButton_1 = new JButton("취소");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PhoneView returnlist = new PhoneView();
-				returnlist.frame.setVisible(true);		
+				PhoneView returnlist;
+				try {
+					returnlist = new PhoneView(present_id, present_pw);
+					frame.dispose();
+					returnlist.frame.setVisible(true);		
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(225, 156, 105, 27);
 		frame.getContentPane().add(btnNewButton_1);
 		
+	}
+	class MyWinListener extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e) {
+			frame.dispose();
+		}
 	}
 
 	public void setVisible(boolean b) {
