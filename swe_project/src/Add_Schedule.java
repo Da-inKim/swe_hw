@@ -17,7 +17,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Add_Schedule extends JDialog {
-	
 	JFrame frame;
 	private JTextField textField;
 	private JTextArea textArea;
